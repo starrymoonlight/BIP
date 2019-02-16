@@ -2,7 +2,7 @@
   BIP: ???
   Layer: Applications
   Title: Signatures of Messages using Bitcoin Private Keys
-  Author: Christopher Gilliard <christopher.gilliard@gmail.com>
+  Author: Christopher Gilliard \<christopher.gilliard@gmail.com\>
   Comments-Summary: No comments yet.
   Comments-URI: TBD
   Status: Proposal
