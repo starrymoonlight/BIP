@@ -113,5 +113,6 @@ Allowing wallet software to sign messages is an important function and potential
 
 
 ==References==
+
 [1] - https://github.com/bitcoin/bitcoin/issues/10542
 
