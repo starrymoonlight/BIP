@@ -51,7 +51,7 @@ The header byte has a few components to it. First, it stores something known as 
 
 Note: this code is a modification of the BitcoinJ code which is written in java.
 
-{{{
+```Java
     public static ECKey signedMessageToKey(String message, String signatureBase64) throws SignatureException {
         byte[] signatureEncoded;
         try {
@@ -100,7 +100,7 @@ Note: this code is a modification of the BitcoinJ code which is written in java.
             throw new SignatureException("Could not recover public key from signature");
         return key;
     }
-}}}
+```
 
 ==Acknowledgements==
 
