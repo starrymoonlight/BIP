@@ -15,7 +15,7 @@
 
 This document describes a signature format for signing messages with Bitcoin private keys.
 
-The specification is intended to set a standard for signatures of messages that can be interchanged between different clients.
+The specification is intended to set a standard for signatures of messages that can be signed and verfied between different clients.
 
 One of the key problems in this area is that there are several different types of Bitcoin addresses and without introducing specific standards it is unclear which type of address format is being used. See [1]. This BIP will attempt to address these issues and define a clear and concise format for Bitcoin signatures.
 
@@ -104,7 +104,7 @@ Note: this code is a modification of the BitcoinJ code which is written in java.
 
 # Implications #
 
-Allowing wallet software to sign messages is an important function and potentially underused due to the fact that up until now there has not be a formal specification for how wallets can sign messages using Bitcoin private keys. Bitcoin wallets should be interoperable and use the same conventions for determing signatures. This BIP can also be updated as new signature formats emerge.
+Message signing is an important use case and potentially underused due to the fact that, up until now, there has not be a formal specification for how wallets can sign messages using Bitcoin private keys. Bitcoin wallets should be interoperable and use the same conventions for determing a signature's validity. This BIP can also be updated as new signature formats emerge.
 
 # Acknowledgements #
 
