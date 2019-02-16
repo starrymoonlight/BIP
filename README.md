@@ -17,7 +17,7 @@ This document describes a signature format for signing messages with Bitcoin pri
 
 The specification is intended to set a standard for signatures of messages that can be interchanged between different clients.
 
-One of the key problems in this area is that there are several different types of Bitcoin addresses and without introducing specific standards it is unclear which type of address format is being used. See [1]. This BIP will attempt to address these issues.
+One of the key problems in this area is that there are several different types of Bitcoin addresses and without introducing specific standards it is unclear which type of address format is being used. See [1]. This BIP will attempt to address these issues and define a clear and concise format for Bitcoin signatures.
 
 ==Copyright==
 
