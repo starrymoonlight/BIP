@@ -11,7 +11,7 @@
   License: BSD-2-Clause
 </pre>
 
-==Abstract==
+#Abstract
 
 This document describes a signature format for signing messages with Bitcoin private keys.
 
