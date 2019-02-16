@@ -11,7 +11,7 @@
   License: BSD-2-Clause
 </pre>
 
-==Abstract==
+# Abstract #
 
 This document describes a signature format for signing messages with Bitcoin private keys.
 
@@ -19,17 +19,17 @@ The specification is intended to set a standard for signatures of messages that 
 
 One of the key problems in this area is that there are several different types of Bitcoin addresses and without introducing specific standards it is unclear which type of address format is being used. See [1]. This BIP will attempt to address these issues and define a clear and concise format for Bitcoin signatures.
 
-==Copyright==
+# Copyright #
 
 This BIP is licensed under the 2-clause BSD license.
 
-==Motivation==
+# Motivation #
 
 Since Bitcoin private keys can not only be used to sign Bitcoin transactions, but also any other message, it has become customary to use them to sign various messages for differing purposes. Some applications of signing messages with a Bitcoin private key are as follows: proof of funds for collateral, credit worthiness, enterence to events, airdrops, audits as well as other applications. While there was no BIP written for how to digitally sign messages with Bitcoin private keys with P2PKH addresses it is a fairly well understood process, however with the introduction of Segwit (both in the form of P2SH and bech32) addresses, it is unclear how to distinguish a P2PKH, P2SH, or bech32 address from one another. This BIP proposes a standard signature format that will allow clients to distinguish between the different address formats.
 
-==Specification==
+# Specification #
 
-===Background on ECDSA Signatures===
+## Background on ECDSA Signatures ##
 
 Elliptic Curve Digital Signature Algorithm or ECDSA is a cryptographic algorithm used by Bitcoin to ensure that funds can only be spent by their rightful owners.
 
@@ -39,7 +39,7 @@ private key: A secret number, known only to the person that generated it. A priv
 public key: A number that corresponds to a private key, but does not need to be kept secret. A public key can be calculated from a private key, but not vice versa. A public key can be used to determine if a signature is genuine (in other words, produced with the proper key) without requiring the private key to be divulged. In Bitcoin, public keys are either compressed or uncompressed. Compressed public keys are 33 bytes, consisting of a prefix either 0x02 or 0x03, and a 256-bit integer called x. The older uncompressed keys are 65 bytes, consisting of constant prefix (0x04), followed by two 256-bit integers called x and y (2 * 32 bytes). The prefix of a compressed key allows for the y value to be derived from the x value.
 signature: A number that proves that a signing operation took place. A signature is mathematically generated from a hash of something to be signed, plus a private key. The signature itself is two numbers known as r and s. With the public key, a mathematical algorithm can be used on the signature to determine that it was originally produced from the hash and the private key, without needing to know the private key. Signatures are either 73, 72, or 71 bytes long, with probabilities approximately 25%, 50% and 25% respectively, although sizes even smaller than that are possible with exponentially decreasing probability.
 
-===Conventions with signatures used in Bitcoin===
+## Conventions with signatures used in Bitcoin ##
 
 Bitcoin signatures have the r and s values mentioned above, and a header. The header is a single byte and the r and s are each 32 bytes so a signature's size is 65 bytes. The header is used to specify information about the signature. It can be thought of as a bitmask with each bit in this byte having a meaning. The serialization format of a Bitcoin signature is as follows:
 
@@ -47,7 +47,7 @@ Bitcoin signatures have the r and s values mentioned above, and a header. The he
 
 The header byte has a few components to it. First, it stores something known as the recId. This value is stored in the least significant 2 bits of the header. If the header is between a value of 31 and 34, this indicates that it is a compressed address. If the header value is between 35 and 38 inclusive, it is a p2sh segwit address. If the header value is between 39 and 42, it is a bech32 address.
 
-===Sample Code for processing a signature===
+## Sample Code for processing a signature ##
 
 Note: this code is a modification of the BitcoinJ code which is written in java.
 
@@ -101,18 +101,19 @@ Note: this code is a modification of the BitcoinJ code which is written in java.
         return key;
     }
 ```
-===Implications===
+
+# Implications #
 
 Allowing wallet software to sign messages is an important function and potentially underused due to the fact that up until now there has not be a formal specification for how wallets can sign messages using Bitcoin private keys. Bitcoin wallets should be interoperable and use the same conventions for determing signatures. This BIP can also be updated as new signature formats emerge.
 
-==Acknowledgements==
+# Acknowledgements #
 
 * Konstantin Bay - review
 * Holly Casaletto - review
 * James Bryrer - review
 
 
-==References==
+# References #
 
 [1] - https://github.com/bitcoin/bitcoin/issues/10542
 
