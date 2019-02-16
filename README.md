@@ -1,30 +1,23 @@
-RECENT CHANGES:
-* (16 Apr 2013) Added private derivation for i ≥ 0x80000000 (less risk of parent private key leakage)
-* (30 Apr 2013) Switched from multiplication by I<sub>L</sub> to addition of I<sub>L</sub> (faster, easier implementation)
-* (25 May 2013) Added test vectors
-* (15 Jan 2014) Rename keys with index ≥ 0x80000000 to hardened keys, and add explicit conversion functions.
-* (24 Feb 2017) Added test vectors for hardened derivation with leading zeros
-
 <pre>
-  BIP: 32
+  BIP: ???
   Layer: Applications
-  Title: Hierarchical Deterministic Wallets
-  Author: Pieter Wuille <pieter.wuille@gmail.com>
+  Title: Signatures of Messages using Bitcoin Private Keys
+  Author: Christopher Gilliard <christopher.gilliard@gmail.com>
   Comments-Summary: No comments yet.
-  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0032
-  Status: Final
+  Comments-URI: TBD
+  Status: Proposal
   Type: Informational
-  Created: 2012-02-11
+  Created: 2019-02-16
   License: BSD-2-Clause
 </pre>
 
 ==Abstract==
 
-This document describes hierarchical deterministic wallets (or "HD Wallets"): wallets which can be shared partially or entirely with different systems, each with or without the ability to spend coins.
+This document describes a signature format for signing messages with Bitcoin private keys.
 
-The specification is intended to set a standard for deterministic wallets that can be interchanged between different clients. Although the wallets described here have many features, not all are required by supporting clients.
+The specification is intended to set a standard for signatures of messages that can be interchanged between different clients.
 
-The specification consists of two parts. In a first part, a system for deriving a tree of keypairs from a single seed is presented. The second part demonstrates how to build a wallet structure on top of such a tree.
+One of the key problems in this area is that there are several different types of Bitcoin addresses and without introducing specific standards it is unclear which type of address format is being used. See [1]. This BIP will attempt to address these issues.
 
 ==Copyright==
 
@@ -32,15 +25,11 @@ This BIP is licensed under the 2-clause BSD license.
 
 ==Motivation==
 
-The Bitcoin reference client uses randomly generated keys. In order to avoid the necessity for a backup after every transaction, (by default) 100 keys are cached in a pool of reserve keys. Still, these wallets are not intended to be shared and used on several systems simultaneously. They support hiding their private keys by using the wallet encrypt feature and not sharing the password, but such "neutered" wallets lose the power to generate public keys as well.
+Since Bitcoin private keys can not only be used to sign Bitcoin transactions it has become customary to use them to sign various messages for differing purposes. Some applications of signing messages with a Bitcoin private key are as follows: proof of funds for collateral, credit worthiness, enterence to events, airdrops, audits as well as other applications. While there was no BIP written for how to digitally sign messages with Bitcoin private keys with P2PKH addresses it is a fairly well understood process, however with the introduction of Segwit (both in the form of P2SH and bech32) addresses, it is unclear how to distinguish a P2PKH, P2SH, or bech32 address from one another. This BIP proposes a standard signature format that will allow clients to distinguish between the different address formats.
 
-Deterministic wallets do not require such frequent backups, and elliptic curve mathematics permit schemes where one can calculate the public keys without revealing the private keys. This permits for example a webshop business to let its webserver generate fresh addresses (public key hashes) for each order or for each customer, without giving the webserver access to the corresponding private keys (which are required for spending the received funds).
+==Specification==
 
-However, deterministic wallets typically consist of a single "chain" of keypairs. The fact that there is only one chain means that sharing a wallet happens on an all-or-nothing basis. However, in some cases one only wants some (public) keys to be shared and recoverable. In the example of a webshop, the webserver does not need access to all public keys of the merchant's wallet; only to those addresses which are used to receive customer's payments, and not for example the change addresses that are generated when the merchant spends money. Hierarchical deterministic wallets allow such selective sharing by supporting multiple keypair chains, derived from a single root.
-
-==Specification: Key derivation==
-
-===Conventions===
+===Background on ECDSA Signatures===
 
 In the rest of this text we will assume the public key cryptography used in Bitcoin, namely elliptic curve cryptography using the field and curve parameters defined by secp256k1 (http://www.secg.org/sec2-v2.pdf). Variables below are either:
 * Integers modulo the order of the curve (referred to as n).
@@ -300,7 +289,11 @@ A Haskell implementation is available at https://github.com/haskoin/haskoin toge
 
 ==Acknowledgements==
 
-* Gregory Maxwell for the original idea of type-2 deterministic wallets, and many discussions about it.
-* Alan Reiner for the implementation of this scheme in Armory, and the suggestions that followed from that.
-* Eric Lombrozo for reviewing and revising this BIP.
-* Mike Caldwell for the version bytes to obtain human-recognizable Base58 strings.
+* Konstantin Bay - review
+* Holly Casaletto - review
+* James Bryrer - review
+
+
+Reference:
+[1] - https://github.com/bitcoin/bitcoin/issues/10542
+
