@@ -41,7 +41,7 @@ signature: A number that proves that a signing operation took place. A signature
 
 ===Conventions with signatures used in Bitcoin===
 
-Bitcoin signatures have the r and s values mentioned above, and a header. The header is a single byte and the r and s are each 32 bytes so a signature's size is 65 bytes. The header is used to specify information about the signature. It can be thought of as a bitmask with each bit in this byte having a meaning.
+Bitcoin signatures have the r and s values mentioned above, and a header. The header is a single byte and the r and s are each 32 bytes so a signature's size is 65 bytes. The header is used to specify information about the signature. It can be thought of as a bitmask with each bit in this byte having a meaning. The serialization format of a Bitcoin signature is as follows:
 
 [1 byte of header data][32 bytes for r value][32 bytes for s value]
 
@@ -101,6 +101,9 @@ Note: this code is a modification of the BitcoinJ code which is written in java.
         return key;
     }
 ```
+===Implications===
+
+Allowing wallet software to sign messages is an important function and potentially underused due to the fact that up until now there has not be a formal specification for how wallets can sign messages using Bitcoin private keys. Bitcoin wallets should be interoperable and use the same conventions for determing signatures. This BIP can also be updated as new signature formats emerge.
 
 ==Acknowledgements==
 
@@ -109,6 +112,6 @@ Note: this code is a modification of the BitcoinJ code which is written in java.
 * James Bryrer - review
 
 
-Reference:
+==References==
 [1] - https://github.com/bitcoin/bitcoin/issues/10542
 
