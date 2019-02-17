@@ -37,7 +37,7 @@ A few concepts related to ECDSA:
 
 private key: A secret number, known only to the person that generated it. A private key is essentially a randomly generated number. In Bitcoin, someone with the private key that corresponds to funds on the block chain can spend the funds. In Bitcoin, a private key is a single unsigned 256 bit integer (32 bytes).
 public key: A number that corresponds to a private key, but does not need to be kept secret. A public key can be calculated from a private key, but not vice versa. A public key can be used to determine if a signature is genuine (in other words, produced with the proper key) without requiring the private key to be divulged. In Bitcoin, public keys are either compressed or uncompressed. Compressed public keys are 33 bytes, consisting of a prefix either 0x02 or 0x03, and a 256-bit integer called x. The older uncompressed keys are 65 bytes, consisting of constant prefix (0x04), followed by two 256-bit integers called x and y (2 * 32 bytes). The prefix of a compressed key allows for the y value to be derived from the x value.
-signature: A number that proves that a signing operation took place. A signature is mathematically generated from a hash of something to be signed, plus a private key. The signature itself is two numbers known as r and s. With the public key, a mathematical algorithm can be used on the signature to determine that it was originally produced from the hash and the private key, without needing to know the private key. Signatures are either 73, 72, or 71 bytes long, with probabilities approximately 25%, 50% and 25% respectively, although sizes even smaller than that are possible with exponentially decreasing probability.
+signature: A number that proves that a signing operation took place. A signature is mathematically generated from a hash of something to be signed, plus a private key. The signature itself is two numbers known as r and s. With the public key, a mathematical algorithm can be used on the signature to determine that it was originally produced from the hash and the private key, without needing to know the private key. Signatures are either 73, 72, or 71 bytes long, with probabilities approximately 25%, 50% and 25% respectively, although sizes even smaller than that are possible with exponentially decreasing probability. [2]
 
 ## Conventions with signatures used in Bitcoin ##
 
@@ -77,7 +77,7 @@ Note: this code is a modification of the BitcoinJ code which is written in java.
         Sha256Hash messageHash = Sha256Hash.twiceOf(messageBytes);
         boolean compressed = false;
         
-        // this section is added to support new signature types
+        // this section is added to support new signature types and is most relevant to this BIP
         if(header>= 39) // this is a bech32 signature
         {
             header -= 12;
@@ -92,6 +92,8 @@ Note: this code is a modification of the BitcoinJ code which is written in java.
             compressed = true;
             header -= 4;
         }
+        
+        // end BIP modification of BitcoinJ
 
         int recId = header - 27;
 
@@ -111,9 +113,10 @@ Message signing is an important use case and potentially underused due to the fa
 * Konstantin Bay - review
 * Holly Casaletto - review
 * James Bryrer - review
-
+Note: the Background on ECDSA signatures section was taken from the en.bitcoin.it wiki.
 
 # References #
 
 [1] - https://github.com/bitcoin/bitcoin/issues/10542
+[2] - https://en.bitcoin.it/wiki/Elliptic_Curve_Digital_Signature_Algorithm
 
